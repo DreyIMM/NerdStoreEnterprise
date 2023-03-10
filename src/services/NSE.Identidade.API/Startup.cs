@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NSE.Identidade.API.Configuration;
 using NSE.Identidade.API.Data;
 using NSE.Identidade.API.Extensions;
 using System;
@@ -17,98 +18,46 @@ namespace NSE.Identidade.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+
+
+        public Startup(IHostEnvironment hostEnvironment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{hostEnvironment.EnvironmentName}.json", true, true)
+                .AddEnvironmentVariables();
+
+            if (hostEnvironment.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            Configuration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
 
         //Onde adicionamos os Midlewares ao pipelaine do ASP.NET
         public void ConfigureServices(IServiceCollection services)
         {
-            //Configurando o DBContext para o Identity
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //Configuração do Identity
+            services.AddIdentityConfiguration(Configuration);
 
-            //Configuração para o Suporte ao Identity
-            services.AddDefaultIdentity<IdentityUser>()
-               .AddRoles<IdentityRole>()
-               .AddErrorDescriber<IdentityMensagensPortugues>()
-               .AddEntityFrameworkStores<ApplicationDbContext>()
-               .AddDefaultTokenProviders();
+            //Configuração da Api
+            services.AddApiConfiguration();
 
-            //Pegando os dados do arquivo de configuração: appSettings, atraves da classe criada
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-
-            //Aqui: O middleware entende que a classe AppSettings represente os dados da sessão AppSettings (ou seja, os dados)
-            services.Configure<AppSettings>(appSettingsSection);
-            //Na variavel appSettings populo os dados 
-            var appSettings = appSettingsSection.Get<AppSettings>();
-
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-
-            //JWT
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(bearerOptions =>
-            {
-                bearerOptions.RequireHttpsMetadata = true;
-                bearerOptions.SaveToken = true;
-                bearerOptions.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = appSettings.ValidoEm,
-                    ValidIssuer = appSettings.Emissor
-                };
-            });
-
-
-
-            services.AddControllers();
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title= "NerdStore Enterprise Identity API",
-                    Description = "Api de autenticação da loja NerdStore Enterprise Aplication",
-                    Contact = new OpenApiContact() {Name = "andrey barbosa", Email = "andrey.barbosa@devq.com.br"},
-                    License = new OpenApiLicense() { Name= "MIT", Url = new Uri("https://opensource.org/licenses/MIT")}
-                });
-            });
+            //Configuração do Swagger
+            services.AddSwaggerConfig();
         }
 
         //Metodo que usa os middlerware no pipelaine
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-            });
+            app.UseSwaggerConfig();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseApiConfiguration(env);
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-            app.UseAuthentication();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
