@@ -34,6 +34,7 @@ namespace NSE.Identidade.API
             //Configuração para o Suporte ao Identity
             services.AddDefaultIdentity<IdentityUser>()
                .AddRoles<IdentityRole>()
+               .AddErrorDescriber<IdentityMensagensPortugues>()
                .AddEntityFrameworkStores<ApplicationDbContext>()
                .AddDefaultTokenProviders();
 
