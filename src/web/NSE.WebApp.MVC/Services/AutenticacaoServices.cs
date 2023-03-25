@@ -16,28 +16,34 @@ namespace NSE.WebApp.MVC.Services
             _httpClient = httpClient;
         }
 
-        public async Task<string> Login(UsuarioLogin usuariologin)
+        public async Task<UsuarioRespostaLogin> Login(UsuarioLogin usuariologin)
         {
             var loginContent = new StringContent
             (
-                    JsonSerializer.Serialize(usuariologin), Encoding.UTF8, mediaType: "application/json"
+                   JsonSerializer.Serialize(usuariologin), Encoding.UTF8, mediaType: "application/json"
             );
+        
+            var response = await _httpClient.PostAsync("https://localhost:44367/api/identidade/autenticar", loginContent);
 
-            var response = await _httpClient.PostAsync("https://localhost:44396/api/identidade/autenticar", loginContent);
+            //resolvendo o problema do .Text.Json (que é chato de usar devido ao CaseInsensitive)
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
 
-            return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync(), options);
         }
 
-        public async Task<string> Registro(UsuarioRegistro usuarioRegistro)
+        public async Task<UsuarioRespostaLogin> Registro(UsuarioRegistro usuarioRegistro)
         {
             var registroContent = new StringContent
             (
-                    JsonSerializer.Serialize(usuarioRegistro), Encoding.UTF8, mediaType: "application/json"
+                  JsonSerializer.Serialize(usuarioRegistro), Encoding.UTF8, mediaType: "application/json"
             );
 
             var response = await _httpClient.PostAsync("https://localhost:44396/api/identidade/nova-conta", registroContent);
 
-            return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<UsuarioRespostaLogin>(await response.Content.ReadAsStringAsync());
         }
     }
 
