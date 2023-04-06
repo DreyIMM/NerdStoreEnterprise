@@ -48,8 +48,8 @@ namespace NSE.WebApp.MVC.Services
                   JsonSerializer.Serialize(usuarioRegistro), Encoding.UTF8, mediaType: "application/json"
             );
 
-            var response = await _httpClient.PostAsync("https://localhost:44396/api/identidade/nova-conta", registroContent);
-
+            var response = await _httpClient.PostAsync("https://localhost:44367/api/identidade/nova-conta", registroContent);
+                
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
