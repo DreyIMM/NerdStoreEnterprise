@@ -23,7 +23,7 @@ namespace NSE.WebApp.MVC.Services
 
         public async Task<ProdutoViewModel> ObterPorId(Guid id)
         {
-            var response = await _httpClient.GetAsync($"/catalago/produtos/{id}");
+            var response = await _httpClient.GetAsync($"/catalogo/produto/{id}");
 
             TratarErrosResponse(response);
 
