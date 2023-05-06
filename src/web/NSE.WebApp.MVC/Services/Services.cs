@@ -1,16 +1,13 @@
-﻿using Microsoft.Extensions.Options;
-using NSE.WebApp.MVC.Extensions;
-using NSE.WebApp.MVC.Models;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using NSE.WebApp.MVC.Extensions;
 
 namespace NSE.WebApp.MVC.Services
 {
     public abstract class Services
     {
-
         protected StringContent ObterConteudo(object dado)
         {
             return new StringContent(
@@ -19,14 +16,14 @@ namespace NSE.WebApp.MVC.Services
                 "application/json");
         }
 
-        protected async Task<T> DeserializarObjetoResponse<T>(HttpResponseMessage responseMnessa)
+        protected async Task<T> DeserializarObjetoResponse<T>(HttpResponseMessage responseMessage)
         {
             var options = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true,
+                PropertyNameCaseInsensitive = true
             };
 
-            return JsonSerializer.Deserialize<T>(await responseMnessa.Content.ReadAsStringAsync(), options);
+            return JsonSerializer.Deserialize<T>(await responseMessage.Content.ReadAsStringAsync(), options);
         }
 
         protected bool TratarErrosResponse(HttpResponseMessage response)
@@ -46,7 +43,5 @@ namespace NSE.WebApp.MVC.Services
             response.EnsureSuccessStatusCode();
             return true;
         }
-
-
     }
 }
