@@ -26,7 +26,9 @@ namespace NSE.WebApp.MVC.Configuration
             services.AddHttpClient<ICatalogoService, CatalogoService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegationHandler>()
                 //.AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(600)));
-                .AddPolicyHandler(PollyExtensions.EsperarTentar());
+                .AddPolicyHandler(PollyExtensions.EsperarTentar())
+                 .AddTransientHttpErrorPolicy(
+                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
 
             //Trabalhando com a ideia do Refit
