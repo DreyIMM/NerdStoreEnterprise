@@ -1,10 +1,11 @@
 ﻿using FluentValidation.Results;
+using MediatR;
 using System;
 
 
 namespace NSE.Core.Messages
 {
-    public abstract class Comand : Message
+    public abstract class Comand : Message, IRequest<ValidationResult>    
     {
         public DateTime Timestamp { get; set; }
 
