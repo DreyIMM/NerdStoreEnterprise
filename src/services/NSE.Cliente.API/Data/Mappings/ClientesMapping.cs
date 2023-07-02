@@ -5,9 +5,9 @@ using NSE.Core.DomainObjects;
 
 namespace NSE.Cliente.API.Data.Mappings
 {
-    public class ClienteMapping : IEntityTypeConfiguration<Clientes>
+    public class ClienteMapping : IEntityTypeConfiguration<ClienteEntity>
     {
-        public void Configure(EntityTypeBuilder<Clientes> builder)
+        public void Configure(EntityTypeBuilder<ClienteEntity> builder)
         {
             builder.HasKey(c => c.Id);
 

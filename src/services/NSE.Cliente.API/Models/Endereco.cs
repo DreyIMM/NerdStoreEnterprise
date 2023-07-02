@@ -18,7 +18,7 @@ namespace NSE.Cliente.API.Models
         public Guid ClienteId { get; private set; }
 
         //EF Relation
-        public Clientes Cliente { get; private set; }
+        public ClienteEntity Cliente { get; private set; }
 
         public Endereco(string logradouro, string numero, string complemento, string bairro, string cep, string cidade, string estado)
         {

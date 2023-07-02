@@ -22,7 +22,7 @@ namespace NSE.Cliente.API.Application.Commands
         {
             if (!message.EhValido()) return message.ValidationResult;
 
-            var cliente = new Clientes(message.Id, message.Nome, message.Email, message.Cpf);
+            var cliente = new ClienteEntity(message.Id, message.Nome, message.Email, message.Cpf);
 
             var ClienteExiste = _clienteRepository.ObterPorCpf(cliente.Cpf.Numero);
 

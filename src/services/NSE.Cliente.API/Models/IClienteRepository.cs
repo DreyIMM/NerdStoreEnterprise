@@ -1,14 +1,13 @@
 ﻿using NSE.Core.Data;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NSE.Cliente.API.Models
 {
-    public interface IClienteRepository : IRepository<Clientes>
+    public interface IClienteRepository : IRepository<ClienteEntity>
     {
-        void Adicionar(Clientes cliente);
-        Task<IEnumerable<Clientes>> ObterTodos();
-        Task<Clientes> ObterPorCpf(string cpf);
+        void Adicionar(ClienteEntity cliente);
+        Task<IEnumerable<ClienteEntity>> ObterTodos();
+        Task<ClienteEntity> ObterPorCpf(string cpf);
     }
 }
