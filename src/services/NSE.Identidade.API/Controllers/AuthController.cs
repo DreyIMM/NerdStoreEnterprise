@@ -24,18 +24,15 @@ namespace NSE.Identidade.API.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
-
         private IBus _bus;
 
         public AuthController(SignInManager<IdentityUser> signInManager,
                                 UserManager<IdentityUser> userManager,
-                                IOptions<AppSettings> appSettings,
-                                IBus bus = null)
+                                IOptions<AppSettings> appSettings)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
-            _bus = bus;
         }
 
         [HttpPost("nova-conta")]
