@@ -8,13 +8,16 @@ using NSE.Cliente.API.Models;
 using NSE.Core.Mediator;
 using NSE.Cliente.API.Application.Events;
 using NSE.Cliente.API.Services;
+using NSE.MessageBus;
+using Microsoft.Extensions.Configuration;
+using NSE.Core.Utils;
 
 namespace NSE.Cliente.API.Configuration
 {
     public static class DependencyInjectionConfig
     {
 
-        public static void RegisterServices(this IServiceCollection services)
+        public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IMediatorHandler, MediatorHandler>();
             services.AddScoped<IRequestHandler<RegistrarClienteCommand, ValidationResult>, ClienteCommandHandler>();
@@ -24,7 +27,10 @@ namespace NSE.Cliente.API.Configuration
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<ClientesContext>();
 
-            services.AddHostedService<RegistroClienteIntegrationHandler>();
+
+            //Incluindo o MessageBus
+            services.AddMessageBus(configuration.GetMessageQueueConnection("MessageBus"))
+                    .AddHostedService<RegistroClienteIntegrationHandler>();
 
         }
 

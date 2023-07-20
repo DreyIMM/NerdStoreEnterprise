@@ -41,6 +41,9 @@ namespace NSE.Identidade.API
 
             //Configuração do Swagger
             services.AddSwaggerConfig();
+
+            //Configuração do MessageBus
+            services.AddMessageBusConfiguration(Configuration);
         }
 
         //Metodo que usa os middlerware no pipelaine

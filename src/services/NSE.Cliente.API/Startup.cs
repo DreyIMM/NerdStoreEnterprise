@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSE.Cliente.API.Configuration;
+using NSE.MessageBus;
 using NSE.WebApi.Core.Identidade;
 
 namespace NSE.Cliente.API
@@ -27,7 +28,7 @@ namespace NSE.Cliente.API
 
             services.AddMediatR(typeof(Startup));
 
-            services.RegisterServices();
+            services.RegisterServices(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
