@@ -2,7 +2,7 @@
 
 namespace NSE.Core.Messages.Integration
 {
-    public class UsuarioRegistradoIntegrationEvent : Event
+    public class UsuarioRegistradoIntegrationEvent : IntegrationEvent
     {
 
         public Guid Id { get; private set; }
