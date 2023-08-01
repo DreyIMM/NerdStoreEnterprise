@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+using System.Text;
 
-namespace NSE.WebApp.MVC.Extensions
+namespace NSE.WebApi.Core.Usuario
 {
-    public interface IUser
+    //Por boa pratica o ideial é seperar os arquivos
+    public interface IAspNetUser
     {
         string Name { get; }
         Guid ObterUserId();
@@ -18,7 +20,7 @@ namespace NSE.WebApp.MVC.Extensions
     }
 
 
-    public class AspNetUser : IUser
+    public class AspNetUser : IAspNetUser
     {
         private readonly IHttpContextAccessor _acessor;
 
@@ -46,7 +48,7 @@ namespace NSE.WebApp.MVC.Extensions
 
         public string ObterUserEmail()
         {
-            return EstaAutenticado() ? _acessor.HttpContext.User.GetUserEmail() : "" ;
+            return EstaAutenticado() ? _acessor.HttpContext.User.GetUserEmail() : "";
         }
 
         public Guid ObterUserId()
@@ -78,10 +80,10 @@ namespace NSE.WebApp.MVC.Extensions
 
         public static string GetUserEmail(this ClaimsPrincipal principal)
         {
-            if(principal == null) throw new ArgumentException(nameof(principal));
+            if (principal == null) throw new ArgumentException(nameof(principal));
 
             var claim = principal.FindFirst("email");
-            return claim?.Value;    
+            return claim?.Value;
         }
 
         public static string GetUserToken(this ClaimsPrincipal principal)
