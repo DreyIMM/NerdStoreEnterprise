@@ -43,6 +43,11 @@ namespace NSE.Carrinho.API.Model
             return new ItemCarrinhoValidation().Validate(this).IsValid;
         }
 
+        internal void AtualizarUnidade(int unidade)
+        {
+            Quantidade = unidade;
+        }
+
         public class ItemCarrinhoValidation : AbstractValidator<CarrinhoItem>
         {
             public ItemCarrinhoValidation()
