@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,6 +14,7 @@ namespace NSE.Carrinho.API.Model
         public Guid ClienteId { get; set; }
         public decimal ValorTotal { get; set; }
         public List<CarrinhoItem> Itens { get; set; } = new List<CarrinhoItem>();
+        public ValidationResult ValidationResult { get; set; }
 
         public CarrinhoCliente(Guid clienteId)
         {
@@ -39,7 +42,7 @@ namespace NSE.Carrinho.API.Model
 
         internal void AdicionarItem(CarrinhoItem item)
         {
-            if (!item.EhValido()) return;
+          
 
             item.AssociarCarrinho(Id);
 
@@ -58,7 +61,6 @@ namespace NSE.Carrinho.API.Model
 
         internal void AtualizarItem(CarrinhoItem item)
         {
-            if (!item.EhValido()) return;
 
             item.AssociarCarrinho(Id);
 
@@ -82,6 +84,32 @@ namespace NSE.Carrinho.API.Model
             Itens.Remove(ObterProdutoId(item.ProdutoId));
             CalcularValorCarrinho();
 
+        }
+
+        internal bool EhValido()
+        {
+            var erros = Itens.SelectMany(i => new CarrinhoItem.ItemCarrinhoValidation().Validate(i).Errors).ToList();
+            erros.AddRange(new CarrinohClienteValidation().Validate(this).Errors);
+
+            return ValidationResult.IsValid;
+        }
+
+        public class CarrinohClienteValidation : AbstractValidator<CarrinhoCliente>
+        {
+            public CarrinohClienteValidation()
+            {
+                RuleFor(c => c.ClienteId)
+                    .NotEqual(Guid.Empty)
+                    .WithMessage("Cliente não reconhecido");
+
+                RuleFor(c => c.Itens.Count)
+                    .GreaterThan(0)
+                    .WithMessage("O carrinho não possuí Itens");
+
+                RuleFor(c => c.ValorTotal)
+                    .GreaterThan(0)
+                    .WithMessage("O valor total do carrinho precisa ser maior que 0");
+            }
         }
 
     }
