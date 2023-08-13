@@ -42,13 +42,11 @@ namespace NSE.Carrinho.API.Model
 
         internal void AdicionarItem(CarrinhoItem item)
         {
-          
-
             item.AssociarCarrinho(Id);
 
             if (CarrinhoItemExistente(item))
             {
-                var itemExistente = ObterProdutoId(item.Id);
+                var itemExistente = ObterProdutoId(item.ProdutoId);
                 itemExistente.AdicionarUnidades(item.Quantidade);
 
                 item = itemExistente;
@@ -90,6 +88,7 @@ namespace NSE.Carrinho.API.Model
         {
             var erros = Itens.SelectMany(i => new CarrinhoItem.ItemCarrinhoValidation().Validate(i).Errors).ToList();
             erros.AddRange(new CarrinohClienteValidation().Validate(this).Errors);
+            ValidationResult = new ValidationResult(erros);
 
             return ValidationResult.IsValid;
         }

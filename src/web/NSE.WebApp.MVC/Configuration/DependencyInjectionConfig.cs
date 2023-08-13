@@ -21,11 +21,15 @@ namespace NSE.WebApp.MVC.Configuration
         {
 
             services.AddSingleton<IValidationAttributeAdapterProvider, CpfValidationAttributeAdapterProvider>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IAspNetUser, AspNetUser>();
 
-            services.AddTransient<HttpClientAuthorizationDelegationHandler>();
+            #region HttpServices
 
-            services.AddHttpClient<IAutenticacaoServices, AutenticacaoServices>();
-
+            services.AddHttpClient<IAutenticacaoServices, AutenticacaoServices>()
+                .AddPolicyHandler(PollyExtensions.EsperarTentar())
+                .AddTransientHttpErrorPolicy(
+                    p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
             services.AddHttpClient<ICatalogoService, CatalogoService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegationHandler>()
@@ -39,9 +43,10 @@ namespace NSE.WebApp.MVC.Configuration
                 .AddTransientHttpErrorPolicy(
                     p => p.CircuitBreakerAsync(5, TimeSpan.FromSeconds(30)));
 
+            services.AddTransient<HttpClientAuthorizationDelegationHandler>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IAspNetUser, AspNetUser>();
+            #endregion
+
         }
 
         #region PollyExtensions
