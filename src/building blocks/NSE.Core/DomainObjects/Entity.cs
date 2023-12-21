@@ -1,7 +1,6 @@
-﻿using NSE.Core.Messages;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using NSE.Core.Messages;
 
 namespace NSE.Core.DomainObjects
 {
@@ -9,14 +8,12 @@ namespace NSE.Core.DomainObjects
     {
         public Guid Id { get; set; }
 
-
         protected Entity()
         {
             Id = Guid.NewGuid();
         }
 
         private List<Event> _notificacoes;
-
         public IReadOnlyCollection<Event> Notificacoes => _notificacoes?.AsReadOnly();
 
         public void AdicionarEvento(Event evento)
@@ -36,14 +33,15 @@ namespace NSE.Core.DomainObjects
         }
 
         #region Comparações
+
         public override bool Equals(object obj)
         {
-            var compareTO = obj as Entity;
+            var compareTo = obj as Entity;
 
-            if (ReferenceEquals(this, compareTO)) return true;
-            if (ReferenceEquals(null, compareTO)) return false;
+            if (ReferenceEquals(this, compareTo)) return true;
+            if (ReferenceEquals(null, compareTo)) return false;
 
-            return Id.Equals(compareTO.Id);
+            return Id.Equals(compareTo.Id);
         }
 
         public static bool operator ==(Entity a, Entity b)
@@ -72,8 +70,6 @@ namespace NSE.Core.DomainObjects
             return $"{GetType().Name} [Id={Id}]";
         }
 
-        #endregion 
-
-
+        #endregion
     }
 }

@@ -1,15 +1,11 @@
-﻿using FluentValidation.Results;
+﻿using System.Threading.Tasks;
+using FluentValidation.Results;
 using NSE.Core.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NSE.Core.Messages
 {
     public abstract class CommandHandler
     {
-
         protected ValidationResult ValidationResult;
 
         protected CommandHandler()
@@ -28,7 +24,5 @@ namespace NSE.Core.Messages
 
             return ValidationResult;
         }
-
-
     }
 }

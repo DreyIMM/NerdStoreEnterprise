@@ -23,5 +23,4 @@ namespace NSE.Core.DomainObjects
             return regexEmail.IsMatch(email);
         }
     }
-
 }

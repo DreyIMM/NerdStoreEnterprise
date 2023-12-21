@@ -1,7 +1,4 @@
 ﻿using NSE.Core.Utils;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NSE.Core.DomainObjects
 {
@@ -21,7 +18,6 @@ namespace NSE.Core.DomainObjects
 
         public static bool Validar(string cpf)
         {
-
             cpf = cpf.ApenasNumeros(cpf);
 
             if (cpf.Length > 11)
@@ -73,8 +69,5 @@ namespace NSE.Core.DomainObjects
 
             return true;
         }
-
-
     }
-
 }

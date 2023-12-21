@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NSE.Core.DomainObjects
 {
-    public  class DomainException : Exception
+    public class DomainException : Exception
     {
         public DomainException()
         { }
@@ -14,6 +12,5 @@ namespace NSE.Core.DomainObjects
 
         public DomainException(string message, Exception innerException) : base(message, innerException)
         { }
-
     }
 }

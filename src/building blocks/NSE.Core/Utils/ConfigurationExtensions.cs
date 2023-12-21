@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-
 namespace NSE.Core.Utils
 {
     public static class ConfigurationExtensions
@@ -9,6 +8,5 @@ namespace NSE.Core.Utils
         {
             return configuration?.GetSection("MessageQueueConnection")?[name];
         }
-
     }
 }

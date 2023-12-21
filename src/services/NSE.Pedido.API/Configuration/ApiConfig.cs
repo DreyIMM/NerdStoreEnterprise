@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.Pedidos.Infra.Data;
-using NSE.WebAPI.Core.Identidade;
+using NSE.WebApi.Core.Identidade;
 
 namespace NSE.Pedidos.API.Configuration
 {

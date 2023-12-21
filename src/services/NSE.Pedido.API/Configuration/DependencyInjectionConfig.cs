@@ -10,7 +10,7 @@ using NSE.Pedidos.Domain;
 using NSE.Pedidos.Domain.Pedidos;
 using NSE.Pedidos.Infra.Data;
 using NSE.Pedidos.Infra.Data.Repository;
-using NSE.WebAPI.Core.Usuario;
+using NSE.WebApi.Core.Usuario;
 
 namespace NSE.Pedidos.API.Configuration
 {
