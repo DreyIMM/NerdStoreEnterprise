@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Polly.CircuitBreaker;
 using Refit;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace NSE.WebApp.MVC.Extensions
 {
@@ -21,15 +21,15 @@ namespace NSE.WebApp.MVC.Extensions
             {
                 await _next(httpContext);
             }
-            catch (CustomHttpResquestException ex)
+            catch (CustomHttpRequestException ex)
             {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
             }
-            catch(ValidationApiException ex)
+            catch (ValidationApiException ex)
             {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
             }
-            catch(ApiException ex) 
+            catch (ApiException ex)
             {
                 HandleRequestExceptionAsync(httpContext, ex.StatusCode);
             }
@@ -41,7 +41,6 @@ namespace NSE.WebApp.MVC.Extensions
 
         private static void HandleRequestExceptionAsync(HttpContext context, HttpStatusCode statusCode)
         {
-            //Erro já conhecido (401)
             if (statusCode == HttpStatusCode.Unauthorized)
             {
                 context.Response.Redirect($"/login?ReturnUrl={context.Request.Path}");
@@ -55,7 +54,5 @@ namespace NSE.WebApp.MVC.Extensions
         {
             context.Response.Redirect("/sistema-indisponivel");
         }
-
-
     }
 }

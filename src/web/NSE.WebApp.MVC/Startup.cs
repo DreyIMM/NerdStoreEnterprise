@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.WebApp.MVC.Configuration;
 
-
 namespace NSE.WebApp.MVC
 {
     public class Startup
@@ -31,6 +30,7 @@ namespace NSE.WebApp.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddIdentityConfiguration();
+
             services.AddMvcConfiguration(Configuration);
 
             services.RegisterServices(Configuration);
@@ -38,7 +38,7 @@ namespace NSE.WebApp.MVC
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.AddMvcConfiguration(env);
+            app.UseMvcConfiguration(env);
         }
     }
 }

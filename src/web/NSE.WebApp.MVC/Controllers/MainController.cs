@@ -1,26 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using NSE.Core.Communication;
 using NSE.WebApp.MVC.Models;
-using System;
-using System.Linq;
 
 namespace NSE.WebApp.MVC.Controllers
 {
     public class MainController : Controller
     {
-       protected bool ResponsePossuiErros(ResponseResult resposta)
-       {
-            if(resposta != null && resposta.Errors.Mensagens.Any())
+        protected bool ResponsePossuiErros(ResponseResult resposta)
+        {
+            if (resposta != null && resposta.Errors.Mensagens.Any())
             {
-                foreach(var mensagem in resposta.Errors.Mensagens)
+                foreach (var mensagem in resposta.Errors.Mensagens)
                 {
                     ModelState.AddModelError(string.Empty, mensagem);
                 }
 
                 return true;
             }
-        
-            return false;   
-        
+
+            return false;
         }
 
         protected void AdicionarErroValidacao(string mensagem)
@@ -32,6 +31,5 @@ namespace NSE.WebApp.MVC.Controllers
         {
             return ModelState.ErrorCount == 0;
         }
-
     }
 }

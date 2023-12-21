@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace NSE.WebApp.MVC.Models
 {
@@ -14,6 +13,4 @@ namespace NSE.WebApp.MVC.Models
         public string Imagem { get; set; }
         public int QuantidadeEstoque { get; set; }
     }
-
-    
 }

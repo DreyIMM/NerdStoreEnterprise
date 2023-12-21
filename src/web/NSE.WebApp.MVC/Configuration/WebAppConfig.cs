@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NSE.WebApp.MVC.Extensions;
-using System.Globalization;
 
 namespace NSE.WebApp.MVC.Configuration
 {
@@ -18,7 +18,7 @@ namespace NSE.WebApp.MVC.Configuration
             services.Configure<AppSettings>(configuration);
         }
 
-        public static void AddMvcConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
+        public static void UseMvcConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
         {
             //if (env.IsDevelopment())
             //{
@@ -26,7 +26,7 @@ namespace NSE.WebApp.MVC.Configuration
             //}
             //else
             //{
-               
+                
             //}
 
             app.UseExceptionHandler("/erro/500");
@@ -40,8 +40,6 @@ namespace NSE.WebApp.MVC.Configuration
 
             app.UseIdentityConfiguration();
 
-            app.UseMiddleware<ExceptionMiddleware>();
-
             var supportedCultures = new[] { new CultureInfo("pt-BR") };
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
@@ -50,6 +48,7 @@ namespace NSE.WebApp.MVC.Configuration
                 SupportedUICultures = supportedCultures
             });
 
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
@@ -58,9 +57,5 @@ namespace NSE.WebApp.MVC.Configuration
                     pattern: "{controller=Catalogo}/{action=Index}/{id?}");
             });
         }
-
-
-
-
     }
 }

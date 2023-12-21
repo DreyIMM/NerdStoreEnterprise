@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
 using System.Threading.Tasks;
-using System;
+using Microsoft.AspNetCore.Mvc;
 using NSE.WebApp.MVC.Services;
 
 namespace NSE.WebApp.MVC.Controllers
 {
     public class CatalogoController : MainController
     {
+        private readonly ICatalogoService _catalogoService;
 
-        private readonly ICatalogoService _catalogoSerivce;
-
-        public CatalogoController(ICatalogoService catalagoService)
+        public CatalogoController(ICatalogoService catalogoService)
         {
-            _catalogoSerivce = catalagoService;
+            _catalogoService = catalogoService;
         }
 
         [HttpGet]
@@ -20,7 +19,7 @@ namespace NSE.WebApp.MVC.Controllers
         [Route("vitrine")]
         public async Task<IActionResult> Index()
         {
-            var produtos = await _catalogoSerivce.ObterTodos();
+            var produtos = await _catalogoService.ObterTodos();
 
             return View(produtos);
         }
@@ -29,7 +28,7 @@ namespace NSE.WebApp.MVC.Controllers
         [Route("produto-detalhe/{id}")]
         public async Task<IActionResult> ProdutoDetalhe(Guid id)
         {
-            var produto = await  _catalogoSerivce.ObterPorId(id);
+            var produto = await _catalogoService.ObterPorId(id);
 
             return View(produto);
         }
