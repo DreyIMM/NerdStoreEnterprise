@@ -1,6 +1,7 @@
 ﻿using NSE.WebApp.MVC.Models;
 using System.Threading.Tasks;
 using System;
+using NSE.Core.Communication;
 
 namespace NSE.WebApp.MVC.Services
 {
