@@ -57,6 +57,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSE.Bff.Compras", "src\api gateways\NSE.Bff.Compras\NSE.Bff.Compras.csproj", "{A1D0E289-34D5-4712-AB70-AF54EED09A36}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSE.Pagamentos.NerdsPag", "src\services\NSE.Pagamentos.NerdsPag\NSE.Pagamentos.NerdsPag.csproj", "{2D87B1F6-EDD4-428C-B085-15BA689D31A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{A1D0E289-34D5-4712-AB70-AF54EED09A36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1D0E289-34D5-4712-AB70-AF54EED09A36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1D0E289-34D5-4712-AB70-AF54EED09A36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D87B1F6-EDD4-428C-B085-15BA689D31A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D87B1F6-EDD4-428C-B085-15BA689D31A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D87B1F6-EDD4-428C-B085-15BA689D31A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D87B1F6-EDD4-428C-B085-15BA689D31A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,6 +152,7 @@ Global
 		{D94DA613-0106-48B4-A3C7-37917221C3E7} = {896827A8-E492-4CC6-B8B3-F7A94958146C}
 		{E877F065-55E6-42BB-81D8-F5287EF2281A} = {5A2EEAAF-597A-41A5-B80D-F33B93D0512D}
 		{A1D0E289-34D5-4712-AB70-AF54EED09A36} = {E877F065-55E6-42BB-81D8-F5287EF2281A}
+		{2D87B1F6-EDD4-428C-B085-15BA689D31A2} = {C5915234-67A4-4FDD-8FF5-1C924D24E345}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EC062936-8993-4B7A-81F6-759A9F796CBA}
